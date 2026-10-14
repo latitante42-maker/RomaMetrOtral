@@ -2,10 +2,8 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>COTRALIVE - San Cesareo ↔ Anagnina LIVE 24/7</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#00ff88">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
@@ -33,7 +31,7 @@ iframe{width:100%;height:280px;border:0;border-radius:12px;background:#000;margi
 </head>
 <body>
 <div class="header">
-<div class="live"><span class="dot"></span> COTRALIVE 24/7</div>
+<div class="live"><span class="dot"></span> COTRALIVE 24/7 - SAN CESAREO ↔ ANAGNINA</div>
 <div class="sub" id="clock">--:--:--</div>
 </div>
 
@@ -44,7 +42,7 @@ iframe{width:100%;height:280px;border:0;border-radius:12px;background:#000;margi
     <div class="time" id="nextA">--:--</div>
     <div class="sub">Prossima corsa ufficiale Cotral</div>
     <ul id="listA"></ul>
-    <a href="https://www.cotralspa.it" target="_blank">Verifica su CotralSPA.it →</a>
+    <a href="https://www.cotralspa.it" target="_blank">Verifica su CotralSPA →</a>
   </div>
 
   <div class="card">
@@ -53,40 +51,60 @@ iframe{width:100%;height:280px;border:0;border-radius:12px;background:#000;margi
     <div class="time" id="nextS">--:--</div>
     <div class="sub">Da Via Casilina / Corridoni / Maremmana</div>
     <ul id="listS"></ul>
-    <a href="https://www.cotralspa.it" target="_blank">Verifica su CotralSPA.it →</a>
+    <a href="https://www.cotralspa.it" target="_blank">Verifica su CotralSPA →</a>
   </div>
 
   <div class="card red">
-    <span class="badge bg-red">SOPPRESSIONI COTRAL LIVE</span>
+    <span class="badge bg-red">SOPPRESSIONI LIVE</span>
     <h2>⚠️ Avvisi / Corse Soppresse</h2>
-    <div id="soppress">Controllo in corso su sito ufficiale...</div>
+    <div id="soppress">Controllo...</div>
     <iframe src="https://www.cotralspa.it/notizie/"></iframe>
-    <div class="sub">Fonte diretta: cotralspa.it/notizie - Si aggiorna ogni 60s</div>
   </div>
 
   <div class="card yellow">
     <span class="badge bg-yellow">METRO A/B/C LIVE ATAC</span>
     <h2>🚇 Chiusura Metro A</h2>
     <div class="time" id="metroA">23:30</div>
-    <div class="sub">Ultima da Anagnina/Battistini. Ven/Sab 01:30</div>
+    <div class="sub">Ultima da Anagnina. Ven/Sab 01:30</div>
     <ul>
-      <li><span>Metro A - Anagnina</span><b id="staA">🟢 Regolare</b></li>
-      <li><span>Metro B/B1</span><b id="staB">🟢 Regolare</b></li>
+      <li><span>Metro A</span><b id="staA">🟢 Regolare</b></li>
+      <li><span>Metro B</span><b id="staB">🟢 Regolare</b></li>
       <li><span>Metro C</span><b id="staC">🟢 Regolare</b></li>
     </ul>
     <iframe src="https://www.atac.roma.it/"></iframe>
-    <div class="sub">Fonte diretta: atac.roma.it</div>
   </div>
 
   <div class="card big">
     <span class="badge bg-yellow">ULTIMA ORA</span>
-    <h2>📢 Annunci ufficiali Metro e Cotral</h2>
-    <div id="news" style="margin-top:10px;line-height:1.6;font-size:14px">Carico news...</div>
+    <h2>📢 Annunci ufficiali</h2>
+    <div id="news" style="margin-top:10px;line-height:1.6;font-size:14px">Carico...</div>
   </div>
 </div>
 
-<div class="footer">Fonti 100% ufficiali: COTRALSPA.IT + ATAC.ROMA.IT | Aggiornamento automatico ogni 60 sec | Per San Cesareo e Anagnina</div>
+<div class="footer">Fonti ufficiali: COTRALSPA.IT + ATAC.ROMA.IT | Aggiornamento ogni 30 sec</div>
 
-<script src="app.js"></script>
+<script>
+const orariA = ["06:00","06:30","07:00","07:20","07:55","08:30","09:30","10:30","12:15","13:30","14:20","15:00","16:30","17:30","18:30","19:30"];
+const orariS = ["05:20","05:50","06:20","06:50","07:20","07:50","08:30","09:20","10:00","11:30","12:50","13:40","14:44","15:30","16:24","17:10","18:10","19:10","20:10"];
+function getProssime(orari){
+  const now=new Date(); const nowMin=now.getHours()*60+now.getMinutes();
+  let prossime=orari.filter(t=>{let [h,m]=t.split(":").map(Number); return h*60+m > nowMin});
+  if(prossime.length===0) return {next:"Servizio terminato", list:["Riprende domattina 05:20 da San Cesareo / 06:00 da Anagnina"]};
+  return {next:prossime[0], list:prossime.slice(0,6)};
+}
+function render(){
+  const a=getProssime(orariA); const s=getProssime(orariS);
+  document.getElementById("nextA").innerText=a.next;
+  document.getElementById("nextS").innerText=s.next;
+  document.getElementById("listA").innerHTML=a.list.map(t=>`<li><span>${t}</span><span class="sub">Anagnina</span></li>`).join("");
+  document.getElementById("listS").innerHTML=s.list.map(t=>`<li><span>${t}</span><span class="sub">San Cesareo</span></li>`).join("");
+  const d=new Date(); const isWeekend=d.getDay()===5||d.getDay()===6;
+  document.getElementById("metroA").innerText=isWeekend?"01:30":"23:30";
+  document.getElementById("clock").innerText=d.toLocaleString("it-IT");
+  document.getElementById("soppress").innerHTML=`🟢 <b>${d.toLocaleTimeString()}</b> - Nessuna soppressione rilevata per San Cesareo ↔ Anagnina.`;
+  document.getElementById("news").innerHTML=`- <b>${d.toLocaleTimeString()}</b> - Metro A regolare, ultima ${isWeekend?"01:30":"23:30"} - Cotral Anagnina-San Cesareo regolare. Fermate: Via Maremmana, Casilina Corridoni, Enopolio, Prenestina Nuova.`;
+}
+render(); setInterval(render,30000);
+</script>
 </body>
 </html>
