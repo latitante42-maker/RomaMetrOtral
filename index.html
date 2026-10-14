@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>COTRALIVE - San Cesareo ↔ Anagnina LIVE 24/7</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#00ff88">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#080808;color:#fff;font-family:'Space Grotesk',sans-serif}
+.header{position:sticky;top:0;z-index:10;background:#080808;border-bottom:2px solid #00ff88;padding:15px;display:flex;justify-content:space-between;align-items:center}
+.live{display:flex;align-items:center;gap:8px;font-weight:700}
+.dot{width:10px;height:10px;background:#ff2d2d;border-radius:50%;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:#151515;border-radius:18px;padding:16px;border:1px solid #222;border-left:5px solid #00ff88}
+.card.red{border-left-color:#ff2d2d}
+.card.yellow{border-left-color:#ffcc00}
+.badge{font-size:10px;font-weight:700;padding:4px 8px;border-radius:6px;margin-bottom:8px;display:inline-block}
+.bg-green{background:#00ff88;color:#000}.bg-red{background:#ff2d2d;color:#fff}.bg-yellow{background:#ffcc00;color:#000}
+.time{font-size:38px;font-weight:700;line-height:1}
+.sub{font-size:12px;opacity:0.5;margin-top:4px}
+ul{list-style:none;margin-top:10px}
+li{padding:9px 0;border-bottom:1px solid #1f1f1f;display:flex;justify-content:space-between;font-size:14px}
+a{color:#00ff88;text-decoration:none;font-size:13px;font-weight:600}
+iframe{width:100%;height:280px;border:0;border-radius:12px;background:#000;margin-top:10px}
+.big{grid-column:1 / -1}
+.footer{text-align:center;padding:20px;font-size:11px;opacity:0.3}
+</style>
+</head>
+<body>
+<div class="header">
+<div class="live"><span class="dot"></span> COTRALIVE 24/7</div>
+<div class="sub" id="clock">--:--:--</div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <span class="badge bg-green">ANAGNINA → SAN CESAREO</span>
+    <h2>🚌 Partenza Anagnina</h2>
+    <div class="time" id="nextA">--:--</div>
+    <div class="sub">Prossima corsa ufficiale Cotral</div>
+    <ul id="listA"></ul>
+    <a href="https://www.cotralspa.it" target="_blank">Verifica su CotralSPA.it →</a>
+  </div>
+
+  <div class="card">
+    <span class="badge bg-green">SAN CESAREO → ANAGNINA</span>
+    <h2>🚌 Partenza San Cesareo</h2>
+    <div class="time" id="nextS">--:--</div>
+    <div class="sub">Da Via Casilina / Corridoni / Maremmana</div>
+    <ul id="listS"></ul>
+    <a href="https://www.cotralspa.it" target="_blank">Verifica su CotralSPA.it →</a>
+  </div>
+
+  <div class="card red">
+    <span class="badge bg-red">SOPPRESSIONI COTRAL LIVE</span>
+    <h2>⚠️ Avvisi / Corse Soppresse</h2>
+    <div id="soppress">Controllo in corso su sito ufficiale...</div>
+    <iframe src="https://www.cotralspa.it/notizie/"></iframe>
+    <div class="sub">Fonte diretta: cotralspa.it/notizie - Si aggiorna ogni 60s</div>
+  </div>
+
+  <div class="card yellow">
+    <span class="badge bg-yellow">METRO A/B/C LIVE ATAC</span>
+    <h2>🚇 Chiusura Metro A</h2>
+    <div class="time" id="metroA">23:30</div>
+    <div class="sub">Ultima da Anagnina/Battistini. Ven/Sab 01:30</div>
+    <ul>
+      <li><span>Metro A - Anagnina</span><b id="staA">🟢 Regolare</b></li>
+      <li><span>Metro B/B1</span><b id="staB">🟢 Regolare</b></li>
+      <li><span>Metro C</span><b id="staC">🟢 Regolare</b></li>
+    </ul>
+    <iframe src="https://www.atac.roma.it/"></iframe>
+    <div class="sub">Fonte diretta: atac.roma.it</div>
+  </div>
+
+  <div class="card big">
+    <span class="badge bg-yellow">ULTIMA ORA</span>
+    <h2>📢 Annunci ufficiali Metro e Cotral</h2>
+    <div id="news" style="margin-top:10px;line-height:1.6;font-size:14px">Carico news...</div>
+  </div>
+</div>
+
+<div class="footer">Fonti 100% ufficiali: COTRALSPA.IT + ATAC.ROMA.IT | Aggiornamento automatico ogni 60 sec | Per San Cesareo e Anagnina</div>
+
+<script src="app.js"></script>
+</body>
+</html>
