@@ -1,0 +1,15 @@
+{
+  "name": "COTRALIVE - San Cesareo Anagnina",
+  "short_name": "COTRALIVE",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#00ff88",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/61/61205.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
